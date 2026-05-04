@@ -40,4 +40,17 @@ public class JuegoService {
     public void eliminar(String id) {
         repository.deleteById(id);
     }
+
+    // Opciones del repositorio FUERA de las operaciones CRUD. Para generar consultas más complejas para el Controller.
+
+    public List<Juego> buscarPorGenero(String genero) {
+        return repository.findAll().stream().filter(j -> j.getGenero().equalsIgnoreCase(genero)).toList();
+    }
+
+    public Juego marcarComoCompletado(String id) throws Exception {
+        Juego juego = obtenerPorId(id);
+        juego.setCompletado(true);
+        return repository.save(juego);
+    }
+
 }

@@ -41,4 +41,19 @@ public class JuegoController {
     public void eliminar(@PathVariable("id") String id) {
         service.eliminar(id);
     }
+
+    // Fuera de las operaciones CRUD.
+
+    @GetMapping("/buscar")
+    public List<Juego> buscarPorGenero(@RequestParam("genero") String genero) throws Exception
+    {
+        return service.buscarPorGenero(genero);
+    }
+
+    @PatchMapping("/{id}/completar")
+    public Juego marcarComoCompletado(@PathVariable("id") String id) throws Exception
+    {
+        return service.marcarComoCompletado(id);
+    }
 }
+//e42a0ec8

@@ -19,7 +19,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/juegos/**").permitAll()
+                        .requestMatchers("/api/juegos/**", "/error").permitAll()
                         .anyRequest().authenticated()
                 );
 
