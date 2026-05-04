@@ -3,6 +3,7 @@ package com.example.backend.controller;
 import com.example.backend.model.Juego;
 import com.example.backend.service.JuegoService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class JuegoController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void eliminar(@PathVariable("id") String id) {
         service.eliminar(id);
     }
