@@ -6,12 +6,12 @@ import DashboardPage from './pages/DashboardPage';
 import PerfilPage from './pages/PerfilPage';
 import PageXXX from './pages/PageXXX';
 import PageYYY from './pages/PageYYY';
-
+import PrivateLayout from './components/PrivateLayout';
 import { authStorage } from './services/auth';
 
 const PrivateRoute = ({ children }) => {
     const estaAutenticado = authStorage.isAuthenticated();
-    return estaAutenticado ? children : <Navigate to="/login" />;
+    return estaAutenticado ? <PrivateLayout>{children}</PrivateLayout> : <Navigate to="/login" />;
 };
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
 
-                {/* Rutas Privadas (Envueltas en PrivateRoute) */}
+                {/* Rutas Privadas (Todas tendrán AsideMenu automáticamente) */}
                 <Route path="/dashboard" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
                 <Route path="/perfil" element={<PrivateRoute><PerfilPage /></PrivateRoute>} />
                 <Route path="/xxx" element={<PrivateRoute><PageXXX /></PrivateRoute>} />

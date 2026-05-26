@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import AsideMenu from '../components/AsideMenu';
 import { usuarioService } from '../services/api';
 
 const PerfilPage = () => {
@@ -18,27 +17,48 @@ const PerfilPage = () => {
     }, []);
 
     return (
-        <div style={{ display: 'flex' }}>
-            <AsideMenu />
+        <>
+            <h2 style={{ marginBottom: '1.5rem', color: '#333' }}>👤 Mi Perfil</h2>
 
-            <main style={{ padding: '2rem', flex: 1 }}>
-                <h2>Editar Perfil</h2>
-                <form style={{ display: 'flex', flexDirection: 'column', width: '300px', gap: '10px' }}>
-                    <label>Usuario (Solo lectura)</label>
-                    <input value={perfil.username} readOnly disabled />
+            <div className="card shadow-sm" style={{ maxWidth: '500px', border: 'none' }}>
+                <div className="card-body">
+                    <form style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
 
-                    <label>Nombre Completo</label>
-                    <input value={perfil.nombreCompleto} onChange={(e) => setPerfil({...perfil, nombreCompleto: e.target.value})} />
+                        <div>
+                            <label className="form-label fw-bold">Usuario (Solo lectura)</label>
+                            <input className="form-control bg-light" value={perfil.username || ''} readOnly disabled />
+                        </div>
 
-                    <label>Correo Electrónico</label>
-                    <input value={perfil.email} onChange={(e) => setPerfil({...perfil, email: e.target.value})} />
+                        <div>
+                            <label className="form-label fw-bold">Nombre Completo</label>
+                            <input
+                                className="form-control"
+                                value={perfil.nombreCompleto || ''}
+                                onChange={(e) => setPerfil({...perfil, nombreCompleto: e.target.value})}
+                            />
+                        </div>
 
-                    <button type="button" onClick={() => alert("Función de actualización pendiente")}>
-                        Guardar Cambios
-                    </button>
-                </form>
-            </main>
-        </div>
+                        <div>
+                            <label className="form-label fw-bold">Correo Electrónico</label>
+                            <input
+                                className="form-control"
+                                type="email"
+                                value={perfil.email || ''}
+                                onChange={(e) => setPerfil({...perfil, email: e.target.value})}
+                            />
+                        </div>
+
+                        <button
+                            type="button"
+                            className="btn btn-primary mt-2"
+                            onClick={() => alert("Función de actualización pendiente según la rúbrica")}
+                        >
+                            Guardar Cambios
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </>
     );
 };
 
