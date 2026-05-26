@@ -20,7 +20,8 @@ public class JuegoService {
     }
 
     public Juego obtenerPorId(String id) throws Exception {
-        return repository.findById(id).orElseThrow(() -> new Exception("Juego no encontrado"));
+        return repository.findById(id)
+                .orElseThrow(() -> new Exception("Juego no encontrado en el sistema"));
     }
 
     public Juego guardar(Juego juego) {
@@ -29,6 +30,7 @@ public class JuegoService {
 
     public Juego actualizar(String id, Juego juegoActualizado) throws Exception {
         Juego existente = obtenerPorId(id);
+
         existente.setTitulo(juegoActualizado.getTitulo());
         existente.setGenero(juegoActualizado.getGenero());
         existente.setPlataforma(juegoActualizado.getPlataforma());
@@ -41,10 +43,9 @@ public class JuegoService {
         repository.deleteById(id);
     }
 
-    // Opciones del repositorio FUERA de las operaciones CRUD. Para generar consultas más complejas para el Controller.
 
     public List<Juego> buscarPorGenero(String genero) {
-        return repository.findAll().stream().filter(j -> j.getGenero().equalsIgnoreCase(genero)).toList();
+        return repository.findByGeneroIgnoreCase(genero);
     }
 
     public Juego marcarComoCompletado(String id) throws Exception {
@@ -52,5 +53,4 @@ public class JuegoService {
         juego.setCompletado(true);
         return repository.save(juego);
     }
-
 }
