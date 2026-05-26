@@ -1,36 +1,34 @@
-import { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import WelcomePage from './pages/WelcomePage';
 import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
-import Navbar from './components/Navbar';
-import { authStorage } from './services/auth.js';
+import PerfilPage from './pages/PerfilPage';
+import PageXXX from './pages/PageXXX';
+import PageYYY from './pages/PageYYY';
+
+
+const PrivateRoute = ({ children }) => {
+    const token = localStorage.getItem('token');
+    return token ? children : <Navigate to="/login" />;
+};
 
 function App() {
-    // El estado de autenticación vive aquí arriba, en el "padre"
-    // porque tanto Navbar como las páginas necesitan saberlo
-    const [isAuthenticated, setIsAuthenticated] = useState(
-        () => authStorage.isAuthenticated()
-    );
-
-    const handleLoginSuccess = () => {
-        setIsAuthenticated(true);
-    };
-
-    const handleLogout = () => {
-        authStorage.removeToken();
-        setIsAuthenticated(false);
-    };
-
     return (
-        <>
-            <Navbar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
+        <Router>
+            <Routes>
+                {/* Rutas Públicas */}
+                <Route path="/" element={<WelcomePage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
 
-            <div className="container mt-4">
-                {isAuthenticated
-                    ? <DashboardPage />
-                    : <LoginPage onLoginSuccess={handleLoginSuccess} />
-                }
-            </div>
-        </>
+                {/* Rutas Privadas (Envueltas en PrivateRoute) */}
+                <Route path="/dashboard" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
+                <Route path="/perfil" element={<PrivateRoute><PerfilPage /></PrivateRoute>} />
+                <Route path="/xxx" element={<PrivateRoute><PageXXX /></PrivateRoute>} />
+                <Route path="/yyy" element={<PrivateRoute><PageYYY /></PrivateRoute>} />
+            </Routes>
+        </Router>
     );
 }
 

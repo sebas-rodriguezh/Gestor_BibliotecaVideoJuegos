@@ -7,6 +7,8 @@ import com.example.backend.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+
 
 @RestController
 @RequestMapping("/api/auth")
@@ -21,13 +23,12 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest request)
-    {
+    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
         try {
             AuthResponse response = authService.autenticarUsuario(request);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(Collections.singletonMap("error", e.getMessage()));
         }
     }
 
@@ -35,9 +36,9 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         try {
             String mensaje = authService.registrarUsuario(request);
-            return ResponseEntity.ok(mensaje);
+            return ResponseEntity.ok(Collections.singletonMap("mensaje", mensaje));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(Collections.singletonMap("error", e.getMessage()));
         }
     }
 }
