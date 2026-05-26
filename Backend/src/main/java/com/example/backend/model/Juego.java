@@ -1,13 +1,25 @@
 package com.example.backend.model;
 
-import java.io.Serializable;
+import jakarta.persistence.*;
 import java.util.UUID;
 
-public class Juego implements Serializable {
+@Entity
+@Table(name = "juegos")
+public class Juego {
+
+    @Id
     private String id;
+
+    @Column(nullable = false)
     private String titulo;
+
+    @Column(nullable = false)
     private String genero;
+
+    @Column(nullable = false)
     private String plataforma;
+
+    @Column(nullable = false)
     private boolean completado;
 
     public Juego() {}

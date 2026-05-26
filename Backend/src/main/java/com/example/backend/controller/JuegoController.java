@@ -58,4 +58,3 @@ public class JuegoController {
         return service.marcarComoCompletado(id);
     }
 }
-//e42a0ec8

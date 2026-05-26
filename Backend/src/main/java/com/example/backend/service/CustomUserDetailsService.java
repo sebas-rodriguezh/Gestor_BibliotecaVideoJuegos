@@ -1,27 +1,33 @@
 package com.example.backend.service;
 
+import com.example.backend.model.Usuario;
+import com.example.backend.repository.UsuarioRepository;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-
-//Acá simplemente movimos el usuario al servicio propio. Para evitar el error de dependencia circular.
+import java.util.List;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
+    private final UsuarioRepository usuarioRepository;
+
+    public CustomUserDetailsService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // Por ahora mantenemos a nuestro administrador estático en memoria
-        if ("admin".equals(username)) {
-            return User.withUsername("admin")
-                    .password("{noop}admin123") // {noop} significa sin encriptar (solo para pruebas)
-                    .roles("ADMIN")
-                    .build();
-        } else {
-            throw new UsernameNotFoundException("Usuario no encontrado: " + username);
-        }
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + username));
+
+        return User.withUsername(usuario.getUsername())
+                .password(usuario.getPassword())
+                .authorities(List.of(new SimpleGrantedAuthority("ROLE_" + usuario.getRol())))
+                .build();
     }
 }
