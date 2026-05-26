@@ -6,7 +6,8 @@ const request = async (endpoint, method = 'GET', body = null) => {
     const headers = { 'Content-Type': 'application/json' };
 
     const token = authStorage.getToken();
-    if (token) {
+
+    if (token && !endpoint.startsWith('/auth')) {
         headers['Authorization'] = `Bearer ${token}`;
     }
 

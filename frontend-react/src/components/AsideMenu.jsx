@@ -1,10 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { authStorage } from '../services/auth';
 
 const AsideMenu = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
+        authStorage.removeToken();
         navigate('/login');
     };
 
@@ -17,7 +18,7 @@ const AsideMenu = () => {
                 <li><Link to="/xxx">Página XXX</Link></li>
                 <li><Link to="/yyy">Página YYY</Link></li>
                 <li>
-                    <button onClick={handleLogout} style={{ background: 'red', color: 'white', marginTop: '20px' }}>
+                    <button onClick={handleLogout} style={{ background: 'red', color: 'white', marginTop: '20px', border: 'none', padding: '10px', cursor: 'pointer' }}>
                         Logout
                     </button>
                 </li>

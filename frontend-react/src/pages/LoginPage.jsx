@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // 1. Importamos useNavigate
 import { authService } from '../services/api';
 import { authStorage } from '../services/auth.js';
 
-function LoginPage({ onLoginSuccess }) {
-    // Estado local del formulario
+function LoginPage() {
+    const navigate = useNavigate();
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -17,20 +19,21 @@ function LoginPage({ onLoginSuccess }) {
         try {
             const response = await authService.login(username, password);
             authStorage.setToken(response.token);
-            onLoginSuccess(); // Le avisamos al padre que el login fue exitoso
-        } catch {
+            navigate('/dashboard');
+
+        } catch (err) {
             setError('Usuario o contraseña incorrectos');
         } finally {
             setLoading(false);
         }
-
     };
+
     return (
-        <div className="row justify-content-center">
+        <div className="row justify-content-center" style={{ marginTop: '50px' }}>
             <div className="col-md-4">
                 <div className="card shadow-sm">
                     <div className="card-body">
-                        <h4 className="card-title text-center mb-4">Acceso Admin</h4>
+                        <h4 className="card-title text-center mb-4">Acceso al Sistema</h4>
                         <form onSubmit={handleSubmit}>
                             <div className="mb-3">
                                 <label className="form-label">Usuario</label>
@@ -63,4 +66,5 @@ function LoginPage({ onLoginSuccess }) {
         </div>
     );
 }
+
 export default LoginPage;

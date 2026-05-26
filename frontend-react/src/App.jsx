@@ -7,10 +7,11 @@ import PerfilPage from './pages/PerfilPage';
 import PageXXX from './pages/PageXXX';
 import PageYYY from './pages/PageYYY';
 
+import { authStorage } from './services/auth';
 
 const PrivateRoute = ({ children }) => {
-    const token = localStorage.getItem('token');
-    return token ? children : <Navigate to="/login" />;
+    const estaAutenticado = authStorage.isAuthenticated();
+    return estaAutenticado ? children : <Navigate to="/login" />;
 };
 
 function App() {
