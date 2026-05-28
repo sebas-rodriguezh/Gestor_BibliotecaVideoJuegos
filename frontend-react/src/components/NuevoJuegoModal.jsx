@@ -11,8 +11,6 @@ function NuevoJuegoModal({ onClose, onCreado }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
-    // Manejador genérico para todos los campos del formulario
-    // Esto evita tener un useState separado por cada campo
     const handleChange = (e) => {
         const { name, value } = e.target;
         setForm(prev => ({ ...prev, [name]: value }));
@@ -25,7 +23,7 @@ function NuevoJuegoModal({ onClose, onCreado }) {
 
         try {
             await juegoService.create(form);
-            onCreado(); // Avisamos al padre que se creó con éxito
+            onCreado();
         } catch {
             setError('Error al guardar el juego. Verifica tu sesión.');
         } finally {
@@ -34,15 +32,14 @@ function NuevoJuegoModal({ onClose, onCreado }) {
     };
 
     return (
-        // Overlay oscuro detrás del modal
         <div
             className="modal show d-block"
             style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
-            onClick={onClose} // Cerrar al hacer clic fuera
+            onClick={onClose}
         >
             <div
                 className="modal-dialog"
-                onClick={e => e.stopPropagation()} // Evitar que el clic dentro cierre el modal
+                onClick={e => e.stopPropagation()}
             >
                 <div className="modal-content">
                     <div className="modal-header">

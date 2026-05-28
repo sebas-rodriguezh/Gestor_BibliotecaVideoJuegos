@@ -44,8 +44,6 @@ public class JuegoController {
         service.eliminar(id);
     }
 
-    // Fuera de las operaciones CRUD.
-
     @GetMapping("/buscar")
     public List<Juego> buscarPorGenero(@RequestParam("genero") String genero) throws Exception
     {

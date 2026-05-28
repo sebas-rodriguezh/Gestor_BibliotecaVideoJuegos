@@ -9,14 +9,6 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
 
-/*
-Esta clase se encarga de:
-
-1. Construir el token cuando el administrador se loguea correctamente,
-2. Desarmar el token para comprobar que no haya expirado ni haya sido alterado por un tercero.
-
- */
-
 @Component
 public class JwtUtil {
 
@@ -28,17 +20,15 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(SECRET.getBytes());
     }
 
-    // Fabricar el token.
     public String generarToken(String username) {
         return Jwts.builder()
-                .setSubject(username) // A quién le pertenece el token
-                .setIssuedAt(new Date(System.currentTimeMillis())) // Fecha de creación
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) // Fecha de caducidad
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256) // Firma criptográfica
-                .compact(); // Ensambla el token en un String
+                .setSubject(username)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .compact();
     }
 
-    // Validar el token
     public boolean validarToken(String token, String username) {
         final String tokenUsername = extraerUsername(token);
         return (tokenUsername.equals(username) && !isTokenExpirado(token));
@@ -57,7 +47,7 @@ public class JwtUtil {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
-                .parseClaimsJws(token) // Si el token fue alterado, esto lanza una excepción y falla
+                .parseClaimsJws(token)
                 .getBody();
     }
 }
