@@ -34,21 +34,21 @@ const request = async (endpoint, method = 'GET', body = null) => {
 };
 
 export const authService = {
-    login: (username, password) => request('/auth/login', 'POST', { username, password }),
+    login: (username, password)=> request('/auth/login', 'POST', { username, password }),
     register: (usuarioData) => request('/auth/register', 'POST', usuarioData),
 };
 
 export const juegoService = {
     getAll: ()=> request('/juegos'),
-    getById: (id)=> request(`/juegos/${id}`),
+    getById: (id) => request(`/juegos/${id}`),
     create: (juego)=> request('/juegos', 'POST', juego),
     update: (id, juego)=> request(`/juegos/${id}`, 'PUT', juego),
     delete: (id)=> request(`/juegos/${id}`, 'DELETE'),
     complete: (id)=> request(`/juegos/${id}/completar`, 'PATCH'),
-    getByGenero: (genero)=> request(`/juegos/buscar?genero=${genero}`),
+    getByGenero:(genero)=> request(`/juegos/buscar?genero=${genero}`),
 };
-
 
 export const usuarioService = {
     getMe: ()=> request('/usuarios/me'),
+    updateMe: (datos)=> request('/usuarios/me', 'PUT', datos),
 };

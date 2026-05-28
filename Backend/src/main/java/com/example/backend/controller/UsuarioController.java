@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import com.example.backend.model.UpdatePerfilRequest;
 import com.example.backend.model.Usuario;
 import com.example.backend.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
@@ -17,17 +18,24 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
 
-
     @GetMapping("/me")
     public ResponseEntity<?> obtenerMiPerfil(Authentication authentication) {
-        try
-        {
+        try {
             String usernameActual = authentication.getName();
             Usuario miPerfil = usuarioService.obtenerPerfil(usernameActual);
             return ResponseEntity.ok(miPerfil);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        catch (Exception e)
-        {
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<?> actualizarMiPerfil(Authentication authentication, @RequestBody UpdatePerfilRequest request) {
+        try {
+            String usernameActual = authentication.getName();
+            Usuario actualizado = usuarioService.actualizarPerfil(usernameActual, request);
+            return ResponseEntity.ok(actualizado);
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
