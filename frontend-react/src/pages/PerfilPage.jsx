@@ -18,7 +18,7 @@ const PerfilPage = () => {
 
     return (
         <>
-            <h2 style={{ marginBottom: '1.5rem', color: '#333' }}>👤 Mi Perfil</h2>
+            <h2 style={{ marginBottom: '1.5rem', color: '#333' }}>Mi Perfil</h2>
 
             <div className="card shadow-sm" style={{ maxWidth: '500px', border: 'none' }}>
                 <div className="card-body">

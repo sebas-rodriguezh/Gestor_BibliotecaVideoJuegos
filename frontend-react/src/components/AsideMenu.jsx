@@ -1,38 +1,75 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { authStorage } from '../services/auth';
+
+const navLinks = [
+    { to: '/dashboard', label: 'Catálogo' },
+    { to: '/perfil', label: 'Mi perfil' },
+    { to: '/xxx', label: 'Página X' },
+    { to: '/yyy',  label: 'Página Y' },
+];
 
 const AsideMenu = () => {
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleLogout = () => {
         authStorage.removeToken();
-        navigate('/login');
+        navigate('/');
     };
 
     return (
         <aside style={{
-            width: '260px',
-            background: '#212529', // Gris oscuro de Bootstrap para un acabado limpio
+            width: '220px',
+            minWidth: '220px',
+            background: '#212529',
             color: '#ffffff',
-            padding: '2rem 1.5rem',
             display: 'flex',
             flexDirection: 'column',
-            boxShadow: '3px 0 10px rgba(0,0,0,0.1)'
+            padding: '1.5rem 1rem',
         }}>
-            <div style={{ flex: 1 }}>
-                <h4 style={{ marginBottom: '2rem', borderBottom: '1px solid #495057', paddingBottom: '0.5rem', color: '#fff' }}>
-                    🎮 Menú Principal
-                </h4>
-                <ul style={{ listStyleType: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                    <li><Link to="/dashboard" style={{ color: '#adb5bd', textDecoration: 'none', fontWeight: '500', display: 'block' }}>📊 Catálogo</Link></li>
-                    <li><Link to="/perfil" style={{ color: '#adb5bd', textDecoration: 'none', fontWeight: '500', display: 'block' }}>👤 Mi Perfil</Link></li>
-                    <li><Link to="/xxx" style={{ color: '#adb5bd', textDecoration: 'none', fontWeight: '500', display: 'block' }}>🔒 Opción XXX</Link></li>
-                    <li><Link to="/yyy" style={{ color: '#adb5bd', textDecoration: 'none', fontWeight: '500', display: 'block' }}>🔒 Opción YYY</Link></li>
-                </ul>
-            </div>
+            <p style={{
+                fontSize: '0.75rem',
+                textTransform: 'uppercase',
+                letterSpacing: '0.08em',
+                color: '#6c757d',
+                margin: '0 0 1rem 0.5rem'
+            }}>
+                Menú
+            </p>
 
-            <button onClick={handleLogout} className="btn btn-danger w-100" style={{ fontWeight: 'bold' }}>
-                Cerrar Sesión
+            <nav style={{ flex: 1 }}>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    {navLinks.map(({ to, label }) => {
+                        const active = location.pathname === to;
+                        return (
+                            <li key={to}>
+                                <Link
+                                    to={to}
+                                    style={{
+                                        display: 'block',
+                                        padding: '8px 12px',
+                                        borderRadius: '6px',
+                                        color: active ? '#ffffff' : '#adb5bd',
+                                        background: active ? '#343a40' : 'transparent',
+                                        textDecoration: 'none',
+                                        fontSize: '0.9rem',
+                                        transition: 'background 0.15s, color 0.15s',
+                                    }}
+                                >
+                                    {label}
+                                </Link>
+                            </li>
+                        );
+                    })}
+                </ul>
+            </nav>
+
+            <button
+                onClick={handleLogout}
+                className="btn btn-outline-secondary btn-sm w-100 mt-3"
+                style={{ fontSize: '0.85rem' }}
+            >
+                Cerrar sesión
             </button>
         </aside>
     );

@@ -9,7 +9,6 @@ function DashboardPage() {
     const [error, setError] = useState('');
     const [mostrarModal, setMostrarModal] = useState(false);
 
-    // useEffect con [] como segundo argumento = "ejecuta esto solo al montar el componente"
     useEffect(() => {
         cargarJuegos();
     }, []);
@@ -47,10 +46,9 @@ function DashboardPage() {
 
     const handleJuegoCreado = () => {
         setMostrarModal(false);
-        cargarJuegos(); // Recargamos después de crear
+        cargarJuegos();
     };
 
-    // Renderizado condicional según el estado de carga
     if (loading) {
         return (
             <div className="text-center mt-5">
